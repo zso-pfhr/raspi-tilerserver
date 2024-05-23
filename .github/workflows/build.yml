@@ -1,0 +1,74 @@
+name: GitHub Actions Demo
+run-name: Build
+on: [push]
+jobs:
+  build-tileserver:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: usimd/pi-gen-action@v1
+        with:
+          # Release version of pi-gen to use. This can both be a branch or tag name known in
+          # the pi-gen repository.
+          pi-gen-version: master
+
+          # Disable the renaming of the first user during the first boot. This make it so
+          # 'username' stays activated. 'username' must be set for this to work. Please be
+          # aware of the implied security risk of defining a default username and password
+          # for your devices.
+          disable-first-boot-user-rename: 1
+
+          # Enable SSH access to Pi.
+          enable-ssh: 1
+
+          # If this feature is enabled, the action will configure pi-gen to not export any
+          # stage as image but the last one defined in property 'stage-list'. This is
+          # helpful when building a single image flavor (in contrast to building a
+          # lite/server and full-blown desktop image), since it speeds up the build process
+          # significantly.
+          export-last-stage-only: true
+
+          # Token to use for checking out pi-gen repo.
+          github-token: ${{ github.token }}
+
+          # Host name of the image.
+          hostname: zs-tileserver
+
+          # Final image name.
+          image-name: 'zs-tileserver'
+
+          # Default keyboard keymap.
+          keyboard-keymap: ch
+
+          # Default keyboard layout.
+          keyboard-layout: German (CH)
+
+          # Default locale of the system image.
+          locale: de_CH.UTF-8
+
+          # Password of the intial user account, locked if empty.
+          password: 'zso'
+
+          # The release name to use in `/etc/issue.txt`. The default should only be used for
+          # official Raspberry Pi builds.
+          pi-gen-release: Raspberry Pi ZS Tileserver
+
+          # The release version to build images against. Valid values are jessie, stretch,
+          # buster, bullseye, bookworm, and testing.
+          release: bookworm
+
+          # List of stage name to execute in given order. Relative and absolute paths to
+          # custom stage directories are allowed here. Note that by default pi-gen exports
+          # images in stage2 (lite), stage4 and stage5. You probably want to hook in custom
+          # stages before one of the exported stages. Otherwise, the action will make sure
+          # any custom stage will include an image export directive.
+          stage-list: clean-stage stage0 stage1 stage2 ./tileserver-stage
+
+          # System timezone.
+          timezone: Europe/Zurich
+
+          # Name of the initial user account.
+          username: zso
+
+          # Print all output from pi-gen.
+          verbose-output: true
