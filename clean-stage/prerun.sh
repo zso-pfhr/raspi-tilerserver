@@ -1,9 +1,12 @@
 #!/bin/bash -e
 
-ls -lah stage2/
+
+echo "CURRENT: $(pwd)"
+ls -lah
+ls -lah pi-gen/
 
 # The default stage installs many unnecessary packages, especially python and dev tools.
-cat << EOF > stage2/01-sys-tweaks/00-packages-nr
+cat << EOF > pi-gen/stage2/01-sys-tweaks/00-packages-nr
 ssh less fbset sudo psmisc strace ed ncdu
 console-setup keyboard-configuration debconf-utils parted
 bash-completion pkg-config
@@ -25,9 +28,9 @@ file
 EOF
 
 # The default stage installs unnecessary packages
-echo "" > stage2/01-sys-tweaks/00-packages
+echo "" > pi-gen/stage2/01-sys-tweaks/00-packages
 
 # Even though they are not listed in stage-list, they were built.
-touch stage3/SKIP
-touch stage4/SKIP
-touch stage5/SKIP
+touch pi-gen/stage3/SKIP
+touch pi-gen/stage4/SKIP
+touch pi-gen/stage5/SKIP
