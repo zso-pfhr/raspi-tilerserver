@@ -62,7 +62,7 @@ jobs:
           # images in stage2 (lite), stage4 and stage5. You probably want to hook in custom
           # stages before one of the exported stages. Otherwise, the action will make sure
           # any custom stage will include an image export directive.
-          stage-list: clean-stage stage0 stage1 stage2 ./tileserver-stage
+          stage-list: clean-stage stage0 stage1 ./tileserver-stage
 
           # System timezone.
           timezone: Europe/Zurich
