@@ -20,6 +20,7 @@ ethtool
 pciutils
 udisks2
 unzip zip p7zip-full
+nginx
 file
 EOF
 
